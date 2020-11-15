@@ -1,94 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/screens/cart_screen.dart';
+import 'package:shop_app/widgets/app_drwer.dart';
+import 'package:shop_app/widgets/badge.dart';
 
-import '../models/products.dart';
-import '../widgets/product_item.dart';
+import 'package:shop_app/widgets/products_grid.dart';
 
-class ProductOverviewScreen extends StatelessWidget {
-  List<Product> _loadProducts = [
-    Product(
-      id: 'p1',
-      title: 'T-Shirt',
-      description: 'Striped Men Hooded Neck Dark Blue, Red T-Shirt',
-      price: 299,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/800/960/keokpe80-0/t-shirt/o/2/k/3xl-bnvrdhdful-z13-blive-original-imafvaxzmyntzqeu.jpeg?q=50',
-    ),
-    Product(
-      id: 'p2',
-      title: 'Shirt',
-      description: 'Men Slim Fit Solid Formal Shirt',
-      price: 599,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/495/594/jh9fy4w0/shirt/8/g/c/s-pblue39-trendz-deeksha-original-imaenq8jg9fsssnk.jpeg?q=50',
-    ),
-    Product(
-      id: 'p3',
-      title: 'Jeans',
-      description: 'Jogger Fit Men Grey Jeans',
-      price: 799,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/800/960/jhavdzk0/jean/j/x/p/30-hpsjogger-lgrey-urbano-fashion-original-imaf5bzbhhvwu9by.jpeg?q=50',
-    ),
-    Product(
-      id: 'p4',
-      title: 'Trousers',
-      description: 'Regular Fit Men Blue Polyester Viscose Blend Trousers',
-      price: 548,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/800/960/kfoapow0-0/trouser/7/p/g/28-formal-blue-classio-original-imafw2jxuevz5wxv.jpeg?q=50',
-    ),
-    Product(
-      id: 'p5',
-      title: 'Suit Material',
-      description:
-          'Saara Crepe Solid, Floral Print, Printed Salwar Suit Material  (Unstitched)',
-      price: 499,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/800/960/k1tm1e80/fabric/g/r/z/899d197-852d158-saara-original-imafkfcwqhpkdmmg.jpeg?q=50',
-    ),
-    Product(
-      id: 'p6',
-      title: 'Legging',
-      description: 'Misaina Ankle Length Legging  (Black, Solid)',
-      price: 229,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/416/416/kar44280/legging/h/h/g/free-pre-lycra-pant-misaina-original-imafs9grwwwumsnd.jpeg?q=70',
-    ),
-    Product(
-      id: 'p7',
-      title: 'Dupatta',
-      description: 'Chiffon Printed Multicolor Women Dupatta',
-      price: 259,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/800/960/jt4olu80/dupatta/z/7/k/na-2-25-meters-dp-pr-rainbow-white-weavers-villa-na-original-imafekf6d9r5ut7b.jpeg?q=50',
-    ),
-    Product(
-      id: 'p8',
-      title: 'Teddy Bear',
-      description:
-          'Guddeywala 3 Feet Teddy Bear I Love You Jumbo For Some One Special - 90 cm (Pink) - 91 cm  (Pink)',
-      price: 499,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/416/416/k5wse4w0/stuffed-toy/b/6/s/pink-smart-teddy-bear-3-feet-for-90cm-gift-st-e-spaciel-some-one-original-imafhpyahjqf3weh.jpeg?q=70',
-    ),
-    Product(
-      id: 'p9',
-      title: 'Pans',
-      description:
-          'Flipkart SmartBuy Induction Bottom Pan 26 cm diameter  (Aluminium, Non-stick, Induction Bottom)',
-      price: 649,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/416/416/k0zlsi80/cookware-set/x/6/t/8904216510990-14099-pigeon-original-imafknfe3bqybfmj.jpeg?q=70',
-    ),
-    Product(
-      id: 'p10',
-      title: 'Televisions',
-      description: 'Mi 4X 125.7 cm (50) Ultra HD (4K) LED Smart Android TV',
-      price: 31999,
-      imageUrl:
-          'https://rukminim1.flixcart.com/image/416/416/keq058w0/television/f/h/e/mi-l32m6-ei-original-imafvcbhap72hury.jpeg?q=70',
-    ),
-  ];
+enum FilterOptions {
+  Filter,
+  All,
+}
+
+class ProductOverviewScreen extends StatefulWidget {
+  @override
+  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
+}
+
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  var _showFavoriteOnly = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,24 +26,48 @@ class ProductOverviewScreen extends StatelessWidget {
         title: Text(
           'My Shop',
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+        actions: [
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              child: ch,
+              value: cart.itemCount.toString(),
+            ),
+            child: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                }),
           ),
-          itemCount: _loadProducts.length,
-          itemBuilder: (ctx, i) => ProductItem(
-            _loadProducts[i].id,
-            _loadProducts[i].title,
-            _loadProducts[i].imageUrl,
+          PopupMenuButton(
+            onSelected: (FilterOptions selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOptions.Filter) {
+                  _showFavoriteOnly = true;
+                } else {
+                  _showFavoriteOnly = false;
+                }
+              });
+            },
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Text(
+                  'Only Favorites',
+                ),
+                value: FilterOptions.Filter,
+              ),
+              PopupMenuItem(
+                child: Text(
+                  'All Items',
+                ),
+                value: FilterOptions.All,
+              ),
+            ],
           ),
-        ),
+        ],
       ),
+      drawer: AppDrawer(),
+      body: ProductsGrid(_showFavoriteOnly),
     );
   }
 }
