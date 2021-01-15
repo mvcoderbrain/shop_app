@@ -48,6 +48,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     super.didChangeDependencies();
   }
 
+// --------------  ₹  --------------------------
+// final url =
+  // 'https://identitytoolkit.googleapis.com/v1/accounts:/$urlSegment?key=AIzaSyCxZofZmoiAMm0aki6L6ZXG9QJMc4aZgjw';
+
+  // https://shop-app-ce470.firebaseio.com
   @override
   Widget build(BuildContext context) {
     return Scaffold(
