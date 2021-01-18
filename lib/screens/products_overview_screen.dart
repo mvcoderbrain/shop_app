@@ -52,6 +52,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         title: Text('My Shop'),
         actions: <Widget>[
           Consumer<Cart>(
@@ -68,6 +69,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               },
             ),
           ),
+=======
+        title: Text('MyShop'),
+        actions: <Widget>[
+>>>>>>> 8b9494af6f8b4c4743b9fac74f7057c29c238b0a
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
@@ -82,6 +87,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               Icons.more_vert,
             ),
             itemBuilder: (_) => [
+<<<<<<< HEAD
               PopupMenuItem(
                 child: Text('Only Favorites'),
                 value: FilterOptions.Favorites,
@@ -89,8 +95,31 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               PopupMenuItem(
                 child: Text('Show All'),
                 value: FilterOptions.All,
+=======
+                  PopupMenuItem(
+                    child: Text('Only Favorites'),
+                    value: FilterOptions.Favorites,
+                  ),
+                  PopupMenuItem(
+                    child: Text('Show All'),
+                    value: FilterOptions.All,
+                  ),
+                ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+                  child: ch,
+                  value: cart.itemCount.toString(),
+                ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+>>>>>>> 8b9494af6f8b4c4743b9fac74f7057c29c238b0a
               ),
-            ],
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
           ),
         ],
       ),

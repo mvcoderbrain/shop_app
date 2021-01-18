@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 
 import '../screens/orders_screen.dart';
 import '../screens/user_products_screen.dart';
 import '../providers/auth.dart';
+=======
+
+import '../screens/orders_screen.dart';
+import '../screens/user_products_screen.dart';
+>>>>>>> 8b9494af6f8b4c4743b9fac74f7057c29c238b0a
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -41,6 +47,7 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed(UserProductsScreen.routeName);
             },
           ),
+<<<<<<< HEAD
           Divider(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
@@ -54,6 +61,8 @@ class AppDrawer extends StatelessWidget {
               Provider.of<Auth>(context, listen: false).logout();
             },
           ),
+=======
+>>>>>>> 8b9494af6f8b4c4743b9fac74f7057c29c238b0a
         ],
       ),
     );
